@@ -1,6 +1,13 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 export default function Header() {
+  const [openedMenu, setOpenedMenu] = useState(false);
+
+  function openMenu() {
+    setOpenedMenu(!openedMenu);
+  }
+
   return (
     <HeaderWrapper>
       <HeaderItems>
@@ -9,7 +16,11 @@ export default function Header() {
           <ion-icon name="search"></ion-icon>
         </InputWrapper>
         <ion-icon name="cart-outline"></ion-icon>
-        <ion-icon name="menu"></ion-icon>
+        {openedMenu ? (
+          <OpenedMenu onClick={openMenu}>hehe</OpenedMenu>
+        ) : (
+          <ion-icon onClick={openMenu} name="menu"></ion-icon>
+        )}
       </HeaderItems>
     </HeaderWrapper>
   );
@@ -68,3 +79,5 @@ const InputWrapper = styled.div`
     font-size: 22px;
   }
 `;
+
+const OpenedMenu = styled.div``;

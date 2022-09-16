@@ -4,10 +4,10 @@ import styled from "styled-components";
 export default function Product({ img, name, description, price }) {
   const [heartLiked, setHeartLiked] = useState(false);
   const [hearticon, setHeartIcon] = useState("heart-outline");
+  const [productInfoPopup, setProductInfoPopup] = useState(false);
 
   function likeProduct() {
     setHeartLiked(!heartLiked);
-
     if (hearticon === "heart-outline") {
       setHeartIcon("heart");
     } else {
@@ -15,8 +15,13 @@ export default function Product({ img, name, description, price }) {
     }
   }
 
+  function showProductInfo() {
+    setProductInfoPopup(!productInfoPopup);
+    console.log(productInfoPopup);
+  }
+
   return (
-    <ProductWrapper isliked={heartLiked}>
+    <ProductWrapper onClick={showProductInfo} isliked={heartLiked}>
       <img src={img} alt={name} />
       <h1>{name}</h1>
       <h2>{description}</h2>
