@@ -18,7 +18,7 @@ export default function Header({ isPopUp }) {
         </InputWrapper>
         <ion-icon name="cart-outline"></ion-icon>
         {openedMenu ? (
-          <OpenedMenu onClick={openMenu}>hehe</OpenedMenu>
+          <OpenedMenu onClick={openMenu}>Opened menu</OpenedMenu>
         ) : (
           <ion-icon onClick={openMenu} name="menu"></ion-icon>
         )}

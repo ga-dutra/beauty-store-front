@@ -24,7 +24,6 @@ export default function Product({ img, name, description, price }) {
       setProductInfoPopup(!productInfoPopup);
       setIsProductInfoShown(!isProductInfoShown);
     }
-    console.log(productInfoPopup);
   }
 
   return productInfoPopup ? (

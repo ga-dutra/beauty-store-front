@@ -16,7 +16,6 @@ export default function ProductPopUp({
   function showProductInfo() {
     setProductInfoPopup(!productInfoPopup);
     setIsProductInfoShown(!isProductInfoShown);
-    console.log(productInfoPopup);
   }
 
   return (
