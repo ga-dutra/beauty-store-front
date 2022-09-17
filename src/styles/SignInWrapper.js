@@ -22,7 +22,6 @@ const StoreName = styled.div`
     font-size: 36px;
     line-height: 45px;
     text-align: center;
-    margin-bottom: 25px;
 `;
 
 const RedirectButton = styled.button`
@@ -66,6 +65,18 @@ const FormTitle = styled.div`
 const Form = styled.form`
     width: 100%;
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+
+const AlertMessage = styled.div`
+    width: 95%;
+    color: #757575;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: start;
+    margin-bottom: 15px;
 `;
 
 const InputWrapper = styled.div`
@@ -74,7 +85,8 @@ const InputWrapper = styled.div`
     padding: 15px;
     margin-bottom: 15px;
     border-radius: 43px;
-    background-color: #F5F5F5;
+    border: ${props => props.isInvalid ? '1px solid red' : 'none'};
+    background-color: ${props => props.isInvalid ? '#F2DEDE' : '#F5F5F5'};
     box-shadow: 0 1px 1px 0 #CACACA;
     display: flex;
     align-items: center;
@@ -104,4 +116,4 @@ const Input = styled.input`
     }
 `;
 
-export { Logo, StoreName, RedirectButton, SignInWrapper, CoverImage, FormWrapper, FormTitle, Form, InputWrapper, IconInput, Input }
+export { Logo, StoreName, RedirectButton, SignInWrapper, CoverImage, FormWrapper, FormTitle, Form, InputWrapper, IconInput, Input, AlertMessage }

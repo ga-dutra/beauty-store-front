@@ -1,4 +1,4 @@
-import { CoverImage, FormWrapper, FormTitle, Form, InputWrapper, IconInput, Input } from '../../styles/SignInWrapper.js';
+import { CoverImage, FormWrapper, FormTitle, Form, InputWrapper, IconInput, Input, AlertMessage } from '../../styles/SignInWrapper.js';
 import { MainButton } from '../../styles/MainButton.js';
 import cover from '../../assets/img/cover-signup.svg';
 import user from '../../assets/img/user.svg';
@@ -9,13 +9,13 @@ import { createUser } from '../../api/requests.js';
 import { useNavigate } from 'react-router-dom';
 
 export default function SignUpPage () {
+    const navigate = useNavigate();
     const [form, setForm] = useState({
         name: '',
         email: '',
         password: '',
         passwordConfirmation: ''
     });
-    const navigate = useNavigate();
 
     function handleForm (e) {
         setForm({
@@ -25,16 +25,14 @@ export default function SignUpPage () {
     }
 
     function submitForm (e) {
-        console.log('foi');
         e.preventDefault();
+        const body = {...form};
 
-        createUser(form)
-            .then(() => {
-                navigate('/login');
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        createUser(body).then(() => {
+            navigate('/login');
+        }).catch((error) => {
+            alert(error.response.data);
+        });
     }
 
     return (
@@ -83,8 +81,12 @@ export default function SignUpPage () {
                             onChange={handleForm}
                         />
                     </InputWrapper>
+                    <AlertMessage>
+                        Crie uma senha de, no mínimo, 8 caracteres, com uma combinação de letras
+                        maiúsculas, minúsculas e caracteres especiais.
+                    </AlertMessage>
+                    <MainButton type='submit'>Ir para o login</MainButton>
                 </Form>
-                <MainButton type='submit'>Ir para o login</MainButton>
             </FormWrapper>
         </>
     )
