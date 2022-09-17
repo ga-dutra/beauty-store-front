@@ -19,7 +19,11 @@ export default function PriceSelection() {
     <SelectionWrapper>
       <select value={priceOption} onChange={handleChange}>
         {priceOptions.map((option) => (
-          <option key={option.value} value={option.value}>
+          <option
+            key={option.value}
+            value={option.value}
+            disabled={option.disabled}
+          >
             {" "}
             {option.text}
           </option>

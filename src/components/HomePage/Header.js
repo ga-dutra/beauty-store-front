@@ -1,8 +1,10 @@
 import { useContext, useState } from "react";
 import styled from "styled-components";
 import { ProductsContext } from "../../contexts/ProductsContext";
+import { useNavigate } from "react-router-dom";
 
-export default function Header({ isPopUp }) {
+export default function Header() {
+  const navigate = useNavigate();
   const [openedMenu, setOpenedMenu] = useState(false);
   const { isProductInfoShown } = useContext(ProductsContext);
   function openMenu() {
@@ -16,7 +18,10 @@ export default function Header({ isPopUp }) {
           <input />
           <ion-icon name="search"></ion-icon>
         </InputWrapper>
-        <ion-icon name="cart-outline"></ion-icon>
+        <ion-icon
+          onClick={() => navigate("/cart")}
+          name="cart-outline"
+        ></ion-icon>
         {openedMenu ? (
           <OpenedMenu onClick={openMenu}>Opened menu</OpenedMenu>
         ) : (

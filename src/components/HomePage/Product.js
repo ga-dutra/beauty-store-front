@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import styled from "styled-components";
 import { ProductsContext } from "../../contexts/ProductsContext";
+import { UserContext } from "../../contexts/UserContext";
 import ProductPopUp from "./ProductPopUp";
 
 export default function Product({ img, name, description, price }) {
@@ -9,6 +10,7 @@ export default function Product({ img, name, description, price }) {
   const [productInfoPopup, setProductInfoPopup] = useState(false);
   const { isProductInfoShown, setIsProductInfoShown } =
     useContext(ProductsContext);
+  const { cart, setCart } = useContext(UserContext);
 
   function likeProduct() {
     setHeartLiked(!heartLiked);
@@ -24,6 +26,11 @@ export default function Product({ img, name, description, price }) {
       setProductInfoPopup(!productInfoPopup);
       setIsProductInfoShown(!isProductInfoShown);
     }
+  }
+
+  function addProductToCart(name) {
+    setCart([...cart, name]);
+    console.log(cart);
   }
 
   return productInfoPopup ? (
@@ -42,7 +49,10 @@ export default function Product({ img, name, description, price }) {
       <h2 onClick={showProductInfo}>{description}</h2>
       <h3 onClick={showProductInfo}>R$ {price}</h3>
       <ion-icon onClick={likeProduct} name={hearticon}></ion-icon>
-      <ion-icon name="cart-outline"></ion-icon>
+      <ion-icon
+        onClick={() => addProductToCart(name)}
+        name="cart-outline"
+      ></ion-icon>
     </ProductWrapper>
   );
 }
