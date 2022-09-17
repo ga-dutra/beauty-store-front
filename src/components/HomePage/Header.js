@@ -1,15 +1,27 @@
+import { useContext, useState } from "react";
 import styled from "styled-components";
+import { ProductsContext } from "../../contexts/ProductsContext";
 
-export default function Header() {
+export default function Header({ isPopUp }) {
+  const [openedMenu, setOpenedMenu] = useState(false);
+  const { isProductInfoShown } = useContext(ProductsContext);
+  function openMenu() {
+    setOpenedMenu(!openedMenu);
+  }
+
   return (
-    <HeaderWrapper>
+    <HeaderWrapper isPopUp={isProductInfoShown}>
       <HeaderItems>
         <InputWrapper>
           <input />
           <ion-icon name="search"></ion-icon>
         </InputWrapper>
         <ion-icon name="cart-outline"></ion-icon>
-        <ion-icon name="menu"></ion-icon>
+        {openedMenu ? (
+          <OpenedMenu onClick={openMenu}>Opened menu</OpenedMenu>
+        ) : (
+          <ion-icon onClick={openMenu} name="menu"></ion-icon>
+        )}
       </HeaderItems>
     </HeaderWrapper>
   );
@@ -23,6 +35,7 @@ const HeaderWrapper = styled.div`
   width: 100vw;
   background-color: #ff8e97;
   border-radius: 25px;
+  pointer-events: ${(props) => (props.isPopUp ? "none" : "initial")};
 `;
 
 const HeaderItems = styled.div`
@@ -68,3 +81,5 @@ const InputWrapper = styled.div`
     font-size: 22px;
   }
 `;
+
+const OpenedMenu = styled.div``;
