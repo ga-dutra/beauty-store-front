@@ -5,6 +5,7 @@ const ProductsContext = createContext();
 const ProductsStorage = ({ children }) => {
   const [categorySelected, setCategorySelected] = useState("");
   const [priceOption, setPriceOption] = useState("");
+  const [isProductInfoShown, setIsProductInfoShown] = useState(false);
 
   return (
     <ProductsContext.Provider
@@ -13,6 +14,8 @@ const ProductsStorage = ({ children }) => {
         setCategorySelected,
         priceOption,
         setPriceOption,
+        isProductInfoShown,
+        setIsProductInfoShown,
       }}
     >
       {children}

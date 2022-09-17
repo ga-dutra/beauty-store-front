@@ -1,15 +1,16 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styled from "styled-components";
+import { ProductsContext } from "../../contexts/ProductsContext";
 
-export default function Header() {
+export default function Header({ isPopUp }) {
   const [openedMenu, setOpenedMenu] = useState(false);
-
+  const { isProductInfoShown } = useContext(ProductsContext);
   function openMenu() {
     setOpenedMenu(!openedMenu);
   }
 
   return (
-    <HeaderWrapper>
+    <HeaderWrapper isPopUp={isProductInfoShown}>
       <HeaderItems>
         <InputWrapper>
           <input />
@@ -34,6 +35,7 @@ const HeaderWrapper = styled.div`
   width: 100vw;
   background-color: #ff8e97;
   border-radius: 25px;
+  pointer-events: ${(props) => (props.isPopUp ? "none" : "initial")};
 `;
 
 const HeaderItems = styled.div`

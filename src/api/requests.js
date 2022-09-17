@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url_base = "http://localhost:5000";
+const url_base = " https://beauty-store-back.herokuapp.com";
 
 async function getProducts() {
   const promise = await axios.get(`${url_base}/products`, {});
