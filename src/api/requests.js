@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url_base = " https://beauty-store-back.herokuapp.com";
+const url_base = "https://beauty-store-back.herokuapp.com";
 
 function createUser(body) {
   const promise = axios.post(`${url_base}/sign-up`, body);

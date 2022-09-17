@@ -6,6 +6,7 @@ import HomePage from "./HomePage/HomePage.js";
 import SignInPage from "./SignInPage/SignInPage.js";
 import SignUpPage from "./SignUpPage/SignUpPage.js";
 import LoginPage from "./LoginPage/LoginPage.js";
+import CheckoutPage from "./CheckoutPage/CheckoutPage";
 import CartPage from "./CartPage/CartPage";
 
 export default function App() {
@@ -20,7 +21,9 @@ export default function App() {
               <Route path="/sign-in" element={<SignInPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/sign-up" element={<SignUpPage />} />
+              <Route path="/checkout" element={<CheckoutPage />} />
               <Route path="/cart" element={<CartPage />} />
+
             </Routes>
           </BrowserRouter>
         </ProductsStorage>
