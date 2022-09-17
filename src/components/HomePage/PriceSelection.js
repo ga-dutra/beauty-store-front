@@ -19,7 +19,11 @@ export default function PriceSelection() {
     <SelectionWrapper>
       <select value={priceOption} onChange={handleChange}>
         {priceOptions.map((option) => (
-          <option key={option.value} value={option.value}>
+          <option
+            key={option.value}
+            value={option.value}
+            disabled={option.disabled}
+          >
             {" "}
             {option.text}
           </option>
@@ -32,6 +36,9 @@ export default function PriceSelection() {
 const SelectionWrapper = styled.div`
   width: 50%;
   margin-left: 50vw;
+  position: fixed;
+  z-index: 3;
+  top: 240px;
   select {
     height: 40px;
     background-color: #f5f5f5;

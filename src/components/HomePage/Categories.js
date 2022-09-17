@@ -45,13 +45,19 @@ export default function Categories() {
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
+  height: 100px;
+  padding-top: 30px;
   justify-content: space-evenly;
+  position: fixed;
+  top: 90px;
+  overflow: hidden;
+  z-index: 3;
+  background-color: #f5f5f5;
 `;
 
 const CategoryContainer = styled.div`
   width: 45px;
   height: 45px;
-  margin-top: 110px;
   background-color: ${(props) =>
     props.categorySelected === props.category ? "#01214F" : "#ffaba6"};
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);

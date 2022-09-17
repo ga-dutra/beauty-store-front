@@ -1,13 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styled from "styled-components";
+import { ProductsContext } from "../../contexts/ProductsContext";
+import { UserContext } from "../../contexts/UserContext";
+import ProductPopUp from "./ProductPopUp";
 
 export default function Product({ img, name, description, price }) {
   const [heartLiked, setHeartLiked] = useState(false);
   const [hearticon, setHeartIcon] = useState("heart-outline");
+  const [productInfoPopup, setProductInfoPopup] = useState(false);
+  const { isProductInfoShown, setIsProductInfoShown } =
+    useContext(ProductsContext);
+  const { cart, setCart } = useContext(UserContext);
 
   function likeProduct() {
     setHeartLiked(!heartLiked);
-
     if (hearticon === "heart-outline") {
       setHeartIcon("heart");
     } else {
@@ -15,14 +21,38 @@ export default function Product({ img, name, description, price }) {
     }
   }
 
-  return (
-    <ProductWrapper isliked={heartLiked}>
-      <img src={img} alt={name} />
-      <h1>{name}</h1>
-      <h2>{description}</h2>
-      <h3>R$ {price}</h3>
+  function showProductInfo() {
+    if (!isProductInfoShown) {
+      setProductInfoPopup(!productInfoPopup);
+      setIsProductInfoShown(!isProductInfoShown);
+    }
+  }
+
+  function addProductToCart(name) {
+    setCart([...cart, name]);
+    console.log(cart);
+  }
+
+  return productInfoPopup ? (
+    <ProductPopUp
+      img={img}
+      name={name}
+      description={description}
+      price={price}
+      productInfoPopup={productInfoPopup}
+      setProductInfoPopup={setProductInfoPopup}
+    ></ProductPopUp>
+  ) : (
+    <ProductWrapper isPopUp={isProductInfoShown} isliked={heartLiked}>
+      <img onClick={showProductInfo} src={img} alt={name} />
+      <h1 onClick={showProductInfo}>{name}</h1>
+      <h2 onClick={showProductInfo}>{description}</h2>
+      <h3 onClick={showProductInfo}>R$ {price}</h3>
       <ion-icon onClick={likeProduct} name={hearticon}></ion-icon>
-      <ion-icon name="cart-outline"></ion-icon>
+      <ion-icon
+        onClick={() => addProductToCart(name)}
+        name="cart-outline"
+      ></ion-icon>
     </ProductWrapper>
   );
 }
@@ -37,7 +67,8 @@ const ProductWrapper = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-
+  opacity: ${(props) => (props.isPopUp ? "0.5" : "1")};
+  pointer-events: ${(props) => (props.isPopUp ? "none" : "initial")};
   img {
     width: 58px;
     height: 72px;
