@@ -1,9 +1,20 @@
 import { useContext } from "react";
 import styled from "styled-components";
 import { ProductsContext } from "../../contexts/ProductsContext";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../contexts/UserContext";
 
 export default function SidebarMenu() {
   const { sideMenu, setSideMenu } = useContext(ProductsContext);
+  const navigate = useNavigate();
+  const { setToken } = useContext(UserContext);
+
+  function logout() {
+    if (window.confirm("Tem certeza de que deseja sair?")) {
+      setToken("");
+      navigate("/sign-in");
+    }
+  }
 
   return (
     <SidebarWrapper>
@@ -17,8 +28,8 @@ export default function SidebarMenu() {
           <p>CONTATO</p>
         </div>
         <div>
-          <ion-icon name="log-out-outline"></ion-icon>
-          <p>LOGOUT</p>
+          <ion-icon onClick={logout} name="log-out-outline"></ion-icon>
+          <p onClick={logout}>LOGOUT</p>
         </div>
       </div>
       <ion-icon onClick={() => setSideMenu(!sideMenu)} name="menu"></ion-icon>

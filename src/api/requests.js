@@ -22,4 +22,9 @@ async function postProducts() {
   return promise;
 }
 
-export { createUser, getProducts, postProducts, postLogin };
+async function getUserWishList(config) {
+  const promise = await axios.get(`${url_base}/wish-list`, {});
+  return promise;
+}
+
+export { createUser, getProducts, postProducts, postLogin, getUserWishList };

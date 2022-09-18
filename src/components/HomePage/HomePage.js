@@ -9,11 +9,14 @@ import { useContext, useEffect, useState } from "react";
 import { ProductsContext } from "../../contexts/ProductsContext";
 import { priceFilter } from "../../utils/priceFilter.js";
 import SidebarMenu from "./SidebarMenu";
+import { UserContext } from "../../contexts/UserContext";
 
 export default function HomePage() {
   const [productsList, setProductsList] = useState([]);
   const { categorySelected, priceOption, isProductInfoShown, sideMenu } =
     useContext(ProductsContext);
+  const { token } = useContext(UserContext);
+  console.log(token);
 
   useEffect(() => {
     async function fetchData() {
