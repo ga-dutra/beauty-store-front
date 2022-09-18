@@ -73,9 +73,10 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100vw;
-  /* height: 100%; */
+  height: 100vh;
   background-color: #f5f5f5;
   pointer-events: ${(props) => (props.isPopUp ? "none" : "initial")};
+  overflow: ${(props) => (props.isPopUp ? "hidden" : "initial")};
 `;
 
 const WishList = styled.div`
