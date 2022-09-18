@@ -1,16 +1,17 @@
 import { useContext, useState } from "react";
 import styled from "styled-components";
+import { postItemInCart } from "../../api/requests";
 import { ProductsContext } from "../../contexts/ProductsContext";
 import { UserContext } from "../../contexts/UserContext";
 import ProductPopUp from "./ProductPopUp";
 
-export default function Product({ img, name, description, price }) {
+export default function Product({ id, img, name, description, price }) {
   const [heartLiked, setHeartLiked] = useState(false);
   const [hearticon, setHeartIcon] = useState("heart-outline");
+  const [cartType, setCartType] = useState("cart-outline");
   const [productInfoPopup, setProductInfoPopup] = useState(false);
-  const { isProductInfoShown, setIsProductInfoShown } =
-    useContext(ProductsContext);
-  const { cart, setCart } = useContext(UserContext);
+  const { isProductInfoShown, setIsProductInfoShown } = useContext(ProductsContext);
+  const { token } = useContext(UserContext);
 
   function likeProduct() {
     setHeartLiked(!heartLiked);
@@ -28,9 +29,19 @@ export default function Product({ img, name, description, price }) {
     }
   }
 
-  function addProductToCart(name) {
-    setCart([...cart, name]);
-    console.log(cart);
+  function addProductToCart() {
+    const productId = id;
+
+    postItemInCart(token, productId).then((res) => {
+      if (res.data === 'insert') {
+        setCartType("cart");
+      } else {
+        setCartType("cart-outline");
+      }
+    }).catch((error) => {
+      console.log(error.response.data);
+    });
+    
   }
 
   return productInfoPopup ? (
@@ -50,8 +61,8 @@ export default function Product({ img, name, description, price }) {
       <h3 onClick={showProductInfo}>R$ {price}</h3>
       <ion-icon onClick={likeProduct} name={hearticon}></ion-icon>
       <ion-icon
-        onClick={() => addProductToCart(name)}
-        name="cart-outline"
+        onClick={() => addProductToCart()}
+        name={cartType}
       ></ion-icon>
     </ProductWrapper>
   );
