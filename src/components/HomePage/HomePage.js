@@ -8,10 +8,11 @@ import { getProducts, postProducts } from "../../api/requests";
 import { useContext, useEffect, useState } from "react";
 import { ProductsContext } from "../../contexts/ProductsContext";
 import { priceFilter } from "../../utils/priceFilter.js";
+import SidebarMenu from "./SidebarMenu";
 
 export default function HomePage() {
   const [productsList, setProductsList] = useState([]);
-  const { categorySelected, priceOption, isProductInfoShown } =
+  const { categorySelected, priceOption, isProductInfoShown, sideMenu } =
     useContext(ProductsContext);
 
   useEffect(() => {
@@ -24,11 +25,12 @@ export default function HomePage() {
     }
     fetchData();
   }, []);
-
+  console.log(sideMenu);
   return (
     <>
       <Header></Header>
-      <Wrapper isPopUp={isProductInfoShown}>
+      {sideMenu ? <SidebarMenu></SidebarMenu> : ""}
+      <Wrapper isPopUp={isProductInfoShown} isSideMenu={sideMenu}>
         <Categories></Categories>
         <WishList>
           <ion-icon name="heart-outline"></ion-icon>
@@ -75,7 +77,8 @@ const Wrapper = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: #f5f5f5;
-  pointer-events: ${(props) => (props.isPopUp ? "none" : "initial")};
+  pointer-events: ${(props) =>
+    props.isPopUp || props.isSideMenu ? "none" : "initial"};
   overflow: ${(props) => (props.isPopUp ? "hidden" : "initial")};
 `;
 

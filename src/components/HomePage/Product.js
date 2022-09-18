@@ -8,7 +8,7 @@ export default function Product({ img, name, description, price }) {
   const [heartLiked, setHeartLiked] = useState(false);
   const [hearticon, setHeartIcon] = useState("heart-outline");
   const [productInfoPopup, setProductInfoPopup] = useState(false);
-  const { isProductInfoShown, setIsProductInfoShown } =
+  const { isProductInfoShown, setIsProductInfoShown, sideMenu } =
     useContext(ProductsContext);
   const { cart, setCart } = useContext(UserContext);
 
@@ -43,7 +43,11 @@ export default function Product({ img, name, description, price }) {
       setProductInfoPopup={setProductInfoPopup}
     ></ProductPopUp>
   ) : (
-    <ProductWrapper isPopUp={isProductInfoShown} isliked={heartLiked}>
+    <ProductWrapper
+      isPopUp={isProductInfoShown}
+      isliked={heartLiked}
+      isSideMenu={sideMenu}
+    >
       <img onClick={showProductInfo} src={img} alt={name} />
       <div>
         <h1 onClick={showProductInfo}>{name}</h1>
@@ -69,8 +73,9 @@ const ProductWrapper = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  opacity: ${(props) => (props.isPopUp ? "0.5" : "1")};
-  pointer-events: ${(props) => (props.isPopUp ? "none" : "initial")};
+  opacity: ${(props) => (props.isPopUp || props.isSideMenu ? "0.5" : "1")};
+  pointer-events: ${(props) =>
+    props.isPopUp || props.isSideMenu ? "none" : "initial"};
 
   div {
     display: flex;

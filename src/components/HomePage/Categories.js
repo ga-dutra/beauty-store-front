@@ -16,7 +16,8 @@ const categoriesList = [
 ];
 
 export default function Categories() {
-  const { categorySelected, setCategorySelected } = useContext(ProductsContext);
+  const { categorySelected, setCategorySelected, sideMenu } =
+    useContext(ProductsContext);
 
   function selectCategory(categoryName) {
     if (categorySelected === "" || categoryName !== categorySelected) {
@@ -27,7 +28,7 @@ export default function Categories() {
   }
 
   return (
-    <Wrapper>
+    <Wrapper isSideMenu={sideMenu}>
       {categoriesList.map((item) => (
         <CategoryContainer
           onClick={() => selectCategory(item.name)}
@@ -53,6 +54,7 @@ const Wrapper = styled.div`
   overflow: hidden;
   z-index: 3;
   background-color: #f5f5f5;
+  opacity: ${(props) => (props.isSideMenu ? "0.5" : "1")};
 `;
 
 const CategoryContainer = styled.div`
