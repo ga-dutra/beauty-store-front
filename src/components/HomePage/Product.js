@@ -45,9 +45,11 @@ export default function Product({ img, name, description, price }) {
   ) : (
     <ProductWrapper isPopUp={isProductInfoShown} isliked={heartLiked}>
       <img onClick={showProductInfo} src={img} alt={name} />
-      <h1 onClick={showProductInfo}>{name}</h1>
-      <h2 onClick={showProductInfo}>{description}</h2>
-      <h3 onClick={showProductInfo}>R$ {price}</h3>
+      <div>
+        <h1 onClick={showProductInfo}>{name}</h1>
+        <h2 onClick={showProductInfo}>{description.slice(0, 37)}...</h2>
+        <h3 onClick={showProductInfo}>R$ {price}</h3>
+      </div>
       <ion-icon onClick={likeProduct} name={hearticon}></ion-icon>
       <ion-icon
         onClick={() => addProductToCart(name)}
@@ -69,6 +71,14 @@ const ProductWrapper = styled.div`
   position: relative;
   opacity: ${(props) => (props.isPopUp ? "0.5" : "1")};
   pointer-events: ${(props) => (props.isPopUp ? "none" : "initial")};
+
+  div {
+    display: flex;
+    flex-direction: column;
+    height: 120px;
+    justify-content: space-between;
+  }
+
   img {
     width: 58px;
     height: 72px;
@@ -79,17 +89,15 @@ const ProductWrapper = styled.div`
   h1 {
     font-size: 14px;
     font-weight: 600;
-    margin-bottom: 8px;
+    width: 118px;
   }
 
   h2 {
     font-size: 10px;
     font-weight: 400;
     color: #757575;
-    margin-bottom: 12px;
-    width: 100px;
-    max-height: 20px;
-    overflow: hidden;
+    width: 120px;
+    line-height: 12px;
   }
 
   h3 {
