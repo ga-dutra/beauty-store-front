@@ -16,16 +16,19 @@ export default function LoginPage () {
     });
     const { setToken } = useContext(UserContext);
 
-    function handleForm (e) {
-        setForm({
-            ...form,
-            [e.target.name]: e.target.value
-        });
-    }
 
-    function submitForm (e) {
-        e.preventDefault();
-        const body = {...form};
+  const { setToken } = useContext(UserContext);
+  function handleForm(e) {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  function submitForm(e) {
+    e.preventDefault();
+    const body = { ...form };
+
 
         postLogin(body).then((res) => {
             setToken(`Bearer ${res.data}`);
@@ -36,33 +39,34 @@ export default function LoginPage () {
         });
     }
 
-    return (
-        <>
-            <CoverImage src={cover}></CoverImage>
-            <FormWrapper page='login'>
-                <FormTitle>Entrar</FormTitle>
-                <Form onSubmit={submitForm}>
-                    <InputWrapper>
-                        <IconInput src={email} />
-                        <Input
-                            name='email'
-                            type='email'
-                            placeholder='E-mail'
-                            onChange={handleForm}
-                        />
-                    </InputWrapper>
-                    <InputWrapper>
-                        <IconInput src={password} />
-                        <Input
-                            name='password'
-                            type='password'
-                            placeholder='Senha'
-                            onChange={handleForm}
-                        />
-                    </InputWrapper>
-                    <MainButton>Acessar produtos</MainButton>
-                </Form>
-            </FormWrapper>
-        </>
-    )
+
+  return (
+    <>
+      <CoverImage src={cover}></CoverImage>
+      <FormWrapper page="login">
+        <FormTitle>Entrar</FormTitle>
+        <Form onSubmit={submitForm}>
+          <InputWrapper>
+            <IconInput src={email} />
+            <Input
+              name="email"
+              type="email"
+              placeholder="E-mail"
+              onChange={handleForm}
+            />
+          </InputWrapper>
+          <InputWrapper>
+            <IconInput src={password} />
+            <Input
+              name="password"
+              type="password"
+              placeholder="Senha"
+              onChange={handleForm}
+            />
+          </InputWrapper>
+          <MainButton>Acessar produtos</MainButton>
+        </Form>
+      </FormWrapper>
+    </>
+  );
 }

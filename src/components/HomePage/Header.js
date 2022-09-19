@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
 import { ProductsContext } from "../../contexts/ProductsContext";
 import { useNavigate } from "react-router-dom";
@@ -8,12 +8,17 @@ import { Quantity } from "../../styles/CartWrapper";
 
 export default function Header() {
   const navigate = useNavigate();
+
   const [openedMenu, setOpenedMenu] = useState(false);
   const { token, cart, setCart } = useContext(UserContext);
   const { isProductInfoShown } = useContext(ProductsContext);
   function openMenu() {
     setOpenedMenu(!openedMenu);
   }
+
+  const { isProductInfoShown, sideMenu, setSideMenu } =
+    useContext(ProductsContext);
+
 
   function navigateToCart() {
     getCartList(token).then((res) => {
@@ -26,12 +31,13 @@ export default function Header() {
   }
 
   return (
-    <HeaderWrapper isPopUp={isProductInfoShown}>
+    <HeaderWrapper isPopUp={isProductInfoShown} isSideMenu={sideMenu}>
       <HeaderItems>
         <InputWrapper>
           <input />
           <ion-icon name="search"></ion-icon>
         </InputWrapper>
+
         <CartWrapper>
           <ion-icon
             onClick={navigateToCart}
@@ -44,6 +50,13 @@ export default function Header() {
         ) : (
           <ion-icon onClick={openMenu} name="menu"></ion-icon>
         )}
+
+        <ion-icon
+          onClick={() => navigate("/cart")}
+          name="cart-outline"
+        ></ion-icon>
+        <ion-icon onClick={() => setSideMenu(!sideMenu)} name="menu"></ion-icon>
+
       </HeaderItems>
     </HeaderWrapper>
   );
@@ -57,7 +70,9 @@ const HeaderWrapper = styled.div`
   width: 100vw;
   background-color: #ff8e97;
   border-radius: 25px;
-  pointer-events: ${(props) => (props.isPopUp ? "none" : "initial")};
+  pointer-events: ${(props) =>
+    props.isPopUp || props.isSideMenu ? "none" : "initial"};
+  opacity: ${(props) => (props.isSideMenu ? "0.5" : "1")};
 `;
 
 const HeaderItems = styled.div`
@@ -135,5 +150,3 @@ const QuantityInCart = styled.div`
   top: -7px;
   right: -2px;
 `;
-
-const OpenedMenu = styled.div``;

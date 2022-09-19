@@ -43,4 +43,11 @@ async function getCartList(token) {
   return promise;
 }
 
-export { createUser, getProducts, postProducts, postLogin, postItemInCart, getCartList };
+
+async function getUserWishList(config) {
+  const promise = await axios.get(`${url_base}/wish-list`, {});
+  return promise;
+}
+
+export { createUser, getProducts, postProducts, postLogin, getUserWishList, postItemInCart, getCartList };
+

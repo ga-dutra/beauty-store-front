@@ -6,17 +6,56 @@ import { ProductsContext } from "../../contexts/ProductsContext";
 import { UserContext } from "../../contexts/UserContext";
 import ProductPopUp from "./ProductPopUp";
 
-export default function Product({ id, img, name, description, price }) {
+
+export default function Product({ img, name, description, price, liked }) {
+
   const [heartLiked, setHeartLiked] = useState(false);
   const [hearticon, setHeartIcon] = useState("heart-outline");
   const [cartType, setCartType] = useState("cart-outline");
   const [productInfoPopup, setProductInfoPopup] = useState(false);
+
   const { isProductInfoShown, setIsProductInfoShown } = useContext(ProductsContext);
   const { token } = useContext(UserContext);
   const navigate = useNavigate();
 
+  const {
+    productsWishList,
+    setProductsWishList,
+    isProductInfoShown,
+    setIsProductInfoShown,
+    sideMenu,
+  } = useContext(ProductsContext);
+  const { cart, setCart } = useContext(UserContext);
+
+
   function likeProduct() {
+    const productLiked = {
+      img: img,
+      name: name,
+      description: description,
+      price: price,
+    };
+    const list = productsWishList;
+    const isInList = list.filter((element) => {
+      if (element.name === productLiked.name) {
+        return true;
+      } else return false;
+    });
+
+    if (!isInList[0]) {
+      list.push(productLiked);
+      setProductsWishList(list);
+    } else {
+      const filtered = list.filter((element) => {
+        if (element.name === productLiked.name) {
+          return 0;
+        } else return 1;
+      });
+      setProductsWishList(filtered);
+    }
+
     setHeartLiked(!heartLiked);
+    console.log(productsWishList);
     if (hearticon === "heart-outline") {
       setHeartIcon("heart");
     } else {
@@ -56,12 +95,24 @@ export default function Product({ id, img, name, description, price }) {
       setProductInfoPopup={setProductInfoPopup}
     ></ProductPopUp>
   ) : (
-    <ProductWrapper isPopUp={isProductInfoShown} isliked={heartLiked}>
+    <ProductWrapper
+      isPopUp={isProductInfoShown}
+      isliked={heartLiked}
+      isSideMenu={sideMenu}
+      isWishedList={liked}
+    >
       <img onClick={showProductInfo} src={img} alt={name} />
-      <h1 onClick={showProductInfo}>{name}</h1>
-      <h2 onClick={showProductInfo}>{description}</h2>
-      <h3 onClick={showProductInfo}>R$ {price}</h3>
-      <ion-icon onClick={likeProduct} name={hearticon}></ion-icon>
+      <div>
+        <h1 onClick={showProductInfo}>{name}</h1>
+        <h2 onClick={showProductInfo}>{description.slice(0, 37)}...</h2>
+        <h3 onClick={showProductInfo}>R$ {price}</h3>
+      </div>
+      {liked ? (
+        <ion-icon class="heart" name="heart"></ion-icon>
+      ) : (
+        <ion-icon onClick={likeProduct} name={hearticon}></ion-icon>
+      )}
+
       <ion-icon
         onClick={() => addProductToCart()}
         name={cartType}
@@ -80,8 +131,17 @@ const ProductWrapper = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  opacity: ${(props) => (props.isPopUp ? "0.5" : "1")};
-  pointer-events: ${(props) => (props.isPopUp ? "none" : "initial")};
+  opacity: ${(props) => (props.isPopUp || props.isSideMenu ? "0.5" : "1")};
+  pointer-events: ${(props) =>
+    props.isPopUp || props.isSideMenu ? "none" : "initial"};
+
+  div {
+    display: flex;
+    flex-direction: column;
+    height: 120px;
+    justify-content: space-between;
+  }
+
   img {
     width: 58px;
     height: 72px;
@@ -92,17 +152,15 @@ const ProductWrapper = styled.div`
   h1 {
     font-size: 14px;
     font-weight: 600;
-    margin-bottom: 8px;
+    width: 118px;
   }
 
   h2 {
     font-size: 10px;
     font-weight: 400;
     color: #757575;
-    margin-bottom: 12px;
-    width: 100px;
-    max-height: 20px;
-    overflow: hidden;
+    width: 120px;
+    line-height: 12px;
   }
 
   h3 {
@@ -136,5 +194,9 @@ const ProductWrapper = styled.div`
     to {
       fill: rgb(187, 42, 42);
     }
+  }
+
+  .heart {
+    fill: rgb(187, 42, 42);
   }
 `;
