@@ -38,6 +38,7 @@ export default function Inputs() {
 }
 
 const InputsWrapper = styled.div`
+  margin-top: 30px;
   width: 90vw;
   position: relative;
 

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
 import { ProductsContext } from "../../contexts/ProductsContext";
 import { useNavigate } from "react-router-dom";
@@ -8,11 +8,7 @@ import { UserContext } from "../../contexts/UserContext";
 export default function Header() {
   const navigate = useNavigate();
 
-  const [openedMenu, setOpenedMenu] = useState(false);
-  const { token, cart, setCart } = useContext(UserContext);
-  function openMenu() {
-    setOpenedMenu(!openedMenu);
-  }
+  const { token, cart } = useContext(UserContext);
 
   const { isProductInfoShown, sideMenu, setSideMenu } =
     useContext(ProductsContext);
@@ -20,8 +16,6 @@ export default function Header() {
   function navigateToCart() {
     getCartList(token)
       .then((res) => {
-        console.log(res);
-        setCart(res.data);
         navigate("/cart");
       })
       .catch(() => {

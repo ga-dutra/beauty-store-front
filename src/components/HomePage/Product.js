@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { postItemInCart } from "../../api/requests";
 import { ProductsContext } from "../../contexts/ProductsContext";
 import { UserContext } from "../../contexts/UserContext";
 import ProductPopUp from "./ProductPopUp";
@@ -11,7 +10,7 @@ export default function Product({ img, name, description, price, liked, id }) {
   const [hearticon, setHeartIcon] = useState("heart-outline");
   const [cartType, setCartType] = useState("cart-outline");
   const [productInfoPopup, setProductInfoPopup] = useState(false);
-  const { token } = useContext(UserContext);
+  const { setCart, cart } = useContext(UserContext);
   const navigate = useNavigate();
 
   const {
@@ -21,7 +20,6 @@ export default function Product({ img, name, description, price, liked, id }) {
     setIsProductInfoShown,
     sideMenu,
   } = useContext(ProductsContext);
-  const { cart, setCart } = useContext(UserContext);
 
   function likeProduct() {
     const productLiked = {
@@ -50,7 +48,6 @@ export default function Product({ img, name, description, price, liked, id }) {
     }
 
     setHeartLiked(!heartLiked);
-    console.log(productsWishList);
     if (hearticon === "heart-outline") {
       setHeartIcon("heart");
     } else {
@@ -65,20 +62,52 @@ export default function Product({ img, name, description, price, liked, id }) {
     }
   }
 
-  function addProductToCart(id) {
+  function addProductToCart() {
+    const cartProduct = {
+      img: img,
+      name: name,
+      description: description,
+      price: price,
+    };
+
+    const list = cart;
+    const isInList = list.filter((element) => {
+      if (element.name === cartProduct.name) {
+        return true;
+      } else return false;
+    });
+
+    if (!isInList[0]) {
+      list.push(cartProduct);
+      setCart(list);
+    } else {
+      const filtered = list.filter((element) => {
+        if (element.name === cartProduct.name) {
+          return 0;
+        } else return 1;
+      });
+      setCart(filtered);
+    }
+    console.log(cart);
     const productId = id;
 
-    postItemInCart(token, productId)
-      .then((res) => {
-        if (res.data === "insert") {
-          setCartType("cart");
-        } else {
-          setCartType("cart-outline");
-        }
-      })
-      .catch((error) => {
-        navigate("/sign-in");
-      });
+    //   postItemInCart(token, productId)
+    //     .then((res) => {
+    //       if (res.data === "product inserted on cart-list") {
+    //         setCartType("cart");
+    //         getCartList(token).then((res) => {
+    //           setCart(res.data);
+    //         });
+    //       } else {
+    //         setCartType("cart-outline");
+    //         getCartList(token).then((res) => {
+    //           setCart(res.data);
+    //         });
+    //       }
+    //     })
+    //     .catch(() => {
+    //       navigate("/sign-in");
+    //     });
   }
 
   return productInfoPopup ? (
@@ -109,7 +138,7 @@ export default function Product({ img, name, description, price, liked, id }) {
         <ion-icon onClick={likeProduct} name={hearticon}></ion-icon>
       )}
 
-      <ion-icon onClick={() => addProductToCart(id)} name={cartType}></ion-icon>
+      <ion-icon onClick={addProductToCart} name={cartType}></ion-icon>
     </ProductWrapper>
   );
 }
