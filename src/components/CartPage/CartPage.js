@@ -17,6 +17,7 @@ export default function CartPage() {
   cart.forEach((element) => {
     price += Number(element.price.replace(",", "."));
   });
+  
   return (
     <Wrapper>
       <Header></Header>

@@ -10,7 +10,6 @@ import { useContext, useEffect } from "react";
 import { ProductsContext } from "../../contexts/ProductsContext";
 import { priceFilter } from "../../utils/priceFilter.js";
 import SidebarMenu from "./SidebarMenu";
-import { UserContext } from "../../contexts/UserContext";
 
 export default function HomePage() {
   const {
