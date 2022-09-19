@@ -5,13 +5,14 @@ import { postItemInCart } from "../../api/requests";
 import { ProductsContext } from "../../contexts/ProductsContext";
 import { UserContext } from "../../contexts/UserContext";
 import ProductPopUp from "./ProductPopUp";
+import { getCartList } from "../../api/requests";
 
 export default function Product({ img, name, description, price, liked, id }) {
   const [heartLiked, setHeartLiked] = useState(false);
   const [hearticon, setHeartIcon] = useState("heart-outline");
   const [cartType, setCartType] = useState("cart-outline");
   const [productInfoPopup, setProductInfoPopup] = useState(false);
-  const { token } = useContext(UserContext);
+  const { token, setCart } = useContext(UserContext);
   const navigate = useNavigate();
 
   const {
@@ -21,7 +22,6 @@ export default function Product({ img, name, description, price, liked, id }) {
     setIsProductInfoShown,
     sideMenu,
   } = useContext(ProductsContext);
-  const { cart, setCart } = useContext(UserContext);
 
   function likeProduct() {
     const productLiked = {
@@ -50,7 +50,6 @@ export default function Product({ img, name, description, price, liked, id }) {
     }
 
     setHeartLiked(!heartLiked);
-    console.log(productsWishList);
     if (hearticon === "heart-outline") {
       setHeartIcon("heart");
     } else {
@@ -65,18 +64,24 @@ export default function Product({ img, name, description, price, liked, id }) {
     }
   }
 
-  function addProductToCart(id) {
+  function addProductToCart() {
     const productId = id;
 
     postItemInCart(token, productId)
       .then((res) => {
-        if (res.data === "insert") {
+        if (res.data === "product inserted on cart-list") {
           setCartType("cart");
+          getCartList(token).then((res) => {
+            setCart(res.data);
+          });
         } else {
           setCartType("cart-outline");
+          getCartList(token).then((res) => {
+            setCart(res.data);
+          });
         }
       })
-      .catch((error) => {
+      .catch(() => {
         navigate("/sign-in");
       });
   }
@@ -109,7 +114,7 @@ export default function Product({ img, name, description, price, liked, id }) {
         <ion-icon onClick={likeProduct} name={hearticon}></ion-icon>
       )}
 
-      <ion-icon onClick={() => addProductToCart(id)} name={cartType}></ion-icon>
+      <ion-icon onClick={addProductToCart} name={cartType}></ion-icon>
     </ProductWrapper>
   );
 }

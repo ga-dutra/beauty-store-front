@@ -23,8 +23,6 @@ export default function HomePage() {
     sideMenu,
     isWishListClicked,
   } = useContext(ProductsContext);
-  const { token } = useContext(UserContext);
-  console.log(token);
 
   useEffect(() => {
     async function fetchData() {
@@ -35,7 +33,6 @@ export default function HomePage() {
     fetchData();
   }, [setProductsList]);
 
-  console.log(productsWishList);
   return (
     <>
       <Header></Header>
