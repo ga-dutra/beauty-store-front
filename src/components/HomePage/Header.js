@@ -7,9 +7,7 @@ import { UserContext } from "../../contexts/UserContext";
 
 export default function Header() {
   const navigate = useNavigate();
-
-  const { token, cart } = useContext(UserContext);
-
+  const { token } = useContext(UserContext);
   const { isProductInfoShown, sideMenu, setSideMenu } =
     useContext(ProductsContext);
 
@@ -33,7 +31,6 @@ export default function Header() {
 
         <CartWrapper>
           <ion-icon onClick={navigateToCart} name="cart-outline"></ion-icon>
-          <QuantityInCart>{cart.length}</QuantityInCart>
         </CartWrapper>
 
         <ion-icon onClick={() => setSideMenu(!sideMenu)} name="menu"></ion-icon>
@@ -114,20 +111,4 @@ const CartWrapper = styled.div`
     color: #ffffff;
     font-size: 32px;
   }
-`;
-
-const QuantityInCart = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ff8e97;
-  font-weight: 600;
-  font-size: 13px;
-  background-color: #ffffff;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  position: absolute;
-  top: -7px;
-  right: -2px;
 `;

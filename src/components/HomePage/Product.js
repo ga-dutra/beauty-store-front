@@ -10,9 +10,8 @@ export default function Product({ img, name, description, price, liked, id }) {
   const [hearticon, setHeartIcon] = useState("heart-outline");
   const [cartType, setCartType] = useState("cart-outline");
   const [productInfoPopup, setProductInfoPopup] = useState(false);
-  const { setCart, cart } = useContext(UserContext);
+  const { token, setCart, cart } = useContext(UserContext);
   const navigate = useNavigate();
-
   const {
     productsWishList,
     setProductsWishList,
@@ -77,9 +76,14 @@ export default function Product({ img, name, description, price, liked, id }) {
       } else return false;
     });
 
+    if (!token) {
+      navigate("/sign-in");
+    }
+
     if (!isInList[0]) {
       list.push(cartProduct);
       setCart(list);
+      setCartType("cart");
     } else {
       const filtered = list.filter((element) => {
         if (element.name === cartProduct.name) {
@@ -87,27 +91,9 @@ export default function Product({ img, name, description, price, liked, id }) {
         } else return 1;
       });
       setCart(filtered);
+      setCartType("cart-outline");
     }
-    console.log(cart);
-    const productId = id;
 
-    //   postItemInCart(token, productId)
-    //     .then((res) => {
-    //       if (res.data === "product inserted on cart-list") {
-    //         setCartType("cart");
-    //         getCartList(token).then((res) => {
-    //           setCart(res.data);
-    //         });
-    //       } else {
-    //         setCartType("cart-outline");
-    //         getCartList(token).then((res) => {
-    //           setCart(res.data);
-    //         });
-    //       }
-    //     })
-    //     .catch(() => {
-    //       navigate("/sign-in");
-    //     });
   }
 
   return productInfoPopup ? (

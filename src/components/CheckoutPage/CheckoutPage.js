@@ -8,6 +8,7 @@ import { postOrder } from "../../api/requests";
 export default function CheckoutPage() {
   const navigate = useNavigate();
   const { token } = useContext(UserContext);
+
   function navigateToMain() {
     const promise = postOrder(token);
     promise.then((res) => {
@@ -15,6 +16,7 @@ export default function CheckoutPage() {
     });
   }
   navigateToMain();
+
   return (
     <Body>
       <Icon src={checked}></Icon>
