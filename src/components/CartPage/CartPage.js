@@ -5,9 +5,13 @@ import Inputs from "./Inputs";
 import ItemsInCart from "./Item.js";
 import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
+import { ProductsContext } from "../../contexts/ProductsContext";
+import { useNavigate } from "react-router-dom";
 
 export default function CartPage() {
+  const { isOrderValiable } = useContext(ProductsContext);
   const { cart } = useContext(UserContext);
+  const navigate = useNavigate();
   console.log(cart);
   let price = 0;
   cart.forEach((element) => {
@@ -34,7 +38,17 @@ export default function CartPage() {
               <h4>R$ {String(price.toFixed(2)).replace(".", ",")}</h4>
             </div>
           </PriceInformation>
-          <MainButton>Confirmar compra</MainButton>
+          <MainButton
+            onClick={() => {
+              if (isOrderValiable) {
+                navigate("/checkout");
+              } else {
+                alert("Confira novamente os dados do pedido!");
+              }
+            }}
+          >
+            Confirmar compra
+          </MainButton>
         </>
       ) : (
         <NoProducts>Você ainda não possui produtos no carrinho</NoProducts>

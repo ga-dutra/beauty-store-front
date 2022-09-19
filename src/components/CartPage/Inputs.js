@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styled from "styled-components";
+import { ProductsContext } from "../../contexts/ProductsContext";
 
 export default function Inputs() {
   const paymentOptions = [
@@ -13,13 +14,23 @@ export default function Inputs() {
     { value: "money", text: "Dinheiro" },
   ];
   const [paymentOption, setPaymentOption] = useState(paymentOptions[0].value);
+  const { setIsOrderValiable } = useContext(ProductsContext);
 
   const handleChange = (event) => {
     setPaymentOption(event.target.value);
+    setIsOrderValiable(true);
   };
+
   return (
     <InputsWrapper>
-      <input placeholder="Endereço de entrega" />
+      <input
+        placeholder="Endereço de entrega"
+        onChange={(e) => {
+          if (e !== "") {
+            setIsOrderValiable(true);
+          } else setIsOrderValiable(false);
+        }}
+      />
       <select onChange={handleChange} value={paymentOption}>
         {paymentOptions.map((option) => (
           <option

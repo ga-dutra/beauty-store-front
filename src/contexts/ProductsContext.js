@@ -10,6 +10,7 @@ const ProductsStorage = ({ children }) => {
   const [isProductInfoShown, setIsProductInfoShown] = useState(false);
   const [isWishListClicked, setIsWishListClicked] = useState(false);
   const [sideMenu, setSideMenu] = useState(false);
+  const [isOrderValiable, setIsOrderValiable] = useState(false);
 
   return (
     <ProductsContext.Provider
@@ -28,6 +29,8 @@ const ProductsStorage = ({ children }) => {
         setProductsWishList,
         isWishListClicked,
         setIsWishListClicked,
+        isOrderValiable,
+        setIsOrderValiable,
       }}
     >
       {children}
