@@ -1,17 +1,15 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import styled from "styled-components";
 import { ProductsContext } from "../../contexts/ProductsContext";
 import { useNavigate } from "react-router-dom";
 import { getCartList } from "../../api/requests";
 import { UserContext } from "../../contexts/UserContext";
-import { Quantity } from "../../styles/CartWrapper";
 
 export default function Header() {
   const navigate = useNavigate();
 
   const [openedMenu, setOpenedMenu] = useState(false);
   const { token, cart, setCart } = useContext(UserContext);
-  const { isProductInfoShown } = useContext(ProductsContext);
   function openMenu() {
     setOpenedMenu(!openedMenu);
   }
@@ -19,15 +17,16 @@ export default function Header() {
   const { isProductInfoShown, sideMenu, setSideMenu } =
     useContext(ProductsContext);
 
-
   function navigateToCart() {
-    getCartList(token).then((res) => {
-      console.log(res);
-      setCart(res.data);
-      navigate('/cart');
-    }).catch(() => {
-      navigate('/sign-in');
-    });
+    getCartList(token)
+      .then((res) => {
+        console.log(res);
+        setCart(res.data);
+        navigate("/cart");
+      })
+      .catch(() => {
+        navigate("/sign-in");
+      });
   }
 
   return (
@@ -39,24 +38,11 @@ export default function Header() {
         </InputWrapper>
 
         <CartWrapper>
-          <ion-icon
-            onClick={navigateToCart}
-            name="cart-outline"
-          ></ion-icon>
+          <ion-icon onClick={navigateToCart} name="cart-outline"></ion-icon>
           <QuantityInCart>{cart.length}</QuantityInCart>
         </CartWrapper>
-        {openedMenu ? (
-          <OpenedMenu onClick={openMenu}>Opened menu</OpenedMenu>
-        ) : (
-          <ion-icon onClick={openMenu} name="menu"></ion-icon>
-        )}
 
-        <ion-icon
-          onClick={() => navigate("/cart")}
-          name="cart-outline"
-        ></ion-icon>
         <ion-icon onClick={() => setSideMenu(!sideMenu)} name="menu"></ion-icon>
-
       </HeaderItems>
     </HeaderWrapper>
   );
@@ -78,9 +64,10 @@ const HeaderWrapper = styled.div`
 const HeaderItems = styled.div`
   display: flex;
   position: absolute;
-  top: 44px;
+  top: 38px;
   width: 100%;
   justify-content: space-evenly;
+  align-items: center;
 
   ion-icon {
     cursor: pointer;
@@ -120,7 +107,7 @@ const InputWrapper = styled.div`
 `;
 
 const CartWrapper = styled.div`
-  background-color: #FFABA6;
+  background-color: #ffaba6;
   height: 48px;
   width: 48px;
   border-radius: 50%;
@@ -139,7 +126,7 @@ const QuantityInCart = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #FF8E97;
+  color: #ff8e97;
   font-weight: 600;
   font-size: 13px;
   background-color: #ffffff;

@@ -53,6 +53,7 @@ export default function HomePage() {
                 description={item.description}
                 price={item.price}
                 liked={true}
+                id={item._id}
                 key={item.name}
               />
             ))}

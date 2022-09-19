@@ -80,4 +80,4 @@ const PriceInformation = styled.div`
     justify-content: space-between;
     margin-bottom: 20px;
   }
-;
+`;

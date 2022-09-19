@@ -1,21 +1,28 @@
-import { CoverImage, FormWrapper, FormTitle, Form, InputWrapper, IconInput, Input } from '../../styles/SignInWrapper.js';
-import { MainButton } from '../../styles/MainButton.js';
-import cover from '../../assets/img/cover-login.svg';
-import email from '../../assets/img/email.svg';
-import password from '../../assets/img/password.svg';
-import { useContext, useState } from 'react';
-import { postLogin } from '../../api/requests.js';
-import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../../contexts/UserContext.js';
+import {
+  CoverImage,
+  FormWrapper,
+  FormTitle,
+  Form,
+  InputWrapper,
+  IconInput,
+  Input,
+  RedirectButton,
+} from "../../styles/SignInWrapper.js";
+import { MainButton } from "../../styles/MainButton.js";
+import cover from "../../assets/img/cover-login.svg";
+import email from "../../assets/img/email.svg";
+import password from "../../assets/img/password.svg";
+import { useContext, useState } from "react";
+import { postLogin } from "../../api/requests.js";
+import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../../contexts/UserContext.js";
 
-export default function LoginPage () {
-    const navigate = useNavigate();
-    const [form, setForm] = useState({
-        email: '',
-        password: ''
-    });
-    const { setToken } = useContext(UserContext);
-
+export default function LoginPage() {
+  const navigate = useNavigate();
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
 
   const { setToken } = useContext(UserContext);
   function handleForm(e) {
@@ -29,16 +36,16 @@ export default function LoginPage () {
     e.preventDefault();
     const body = { ...form };
 
-
-        postLogin(body).then((res) => {
-            setToken(`Bearer ${res.data}`);
-            navigate('/');
-            console.log(`Bearer ${res.data}`);
-        }).catch((error) => {
-            alert(error.response.data);
-        });
-    }
-
+    postLogin(body)
+      .then((res) => {
+        setToken(`Bearer ${res.data}`);
+        navigate("/");
+        console.log(`Bearer ${res.data}`);
+      })
+      .catch((error) => {
+        alert(error.response.data);
+      });
+  }
 
   return (
     <>

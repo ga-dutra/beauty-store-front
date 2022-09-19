@@ -75,11 +75,12 @@ const InputsWrapper = styled.div`
     color: #757575;
     font-size: 14px;
     font-weight: 600;
+    position: relative;
   }
 
   ion-icon {
     position: absolute;
-    top: 98px;
+    top: 84px;
     right: 16px;
     font-size: 24px;
   }

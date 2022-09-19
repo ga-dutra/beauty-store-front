@@ -6,15 +6,11 @@ import { ProductsContext } from "../../contexts/ProductsContext";
 import { UserContext } from "../../contexts/UserContext";
 import ProductPopUp from "./ProductPopUp";
 
-
-export default function Product({ img, name, description, price, liked }) {
-
+export default function Product({ img, name, description, price, liked, id }) {
   const [heartLiked, setHeartLiked] = useState(false);
   const [hearticon, setHeartIcon] = useState("heart-outline");
   const [cartType, setCartType] = useState("cart-outline");
   const [productInfoPopup, setProductInfoPopup] = useState(false);
-
-  const { isProductInfoShown, setIsProductInfoShown } = useContext(ProductsContext);
   const { token } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -26,7 +22,6 @@ export default function Product({ img, name, description, price, liked }) {
     sideMenu,
   } = useContext(ProductsContext);
   const { cart, setCart } = useContext(UserContext);
-
 
   function likeProduct() {
     const productLiked = {
@@ -70,19 +65,20 @@ export default function Product({ img, name, description, price, liked }) {
     }
   }
 
-  function addProductToCart() {
+  function addProductToCart(id) {
     const productId = id;
 
-    postItemInCart(token, productId).then((res) => {
-      if (res.data === 'insert') {
-        setCartType("cart");
-      } else {
-        setCartType("cart-outline");
-      }
-    }).catch((error) => {
-        navigate('/sign-in');
-    });
-    
+    postItemInCart(token, productId)
+      .then((res) => {
+        if (res.data === "insert") {
+          setCartType("cart");
+        } else {
+          setCartType("cart-outline");
+        }
+      })
+      .catch((error) => {
+        navigate("/sign-in");
+      });
   }
 
   return productInfoPopup ? (
@@ -113,10 +109,7 @@ export default function Product({ img, name, description, price, liked }) {
         <ion-icon onClick={likeProduct} name={hearticon}></ion-icon>
       )}
 
-      <ion-icon
-        onClick={() => addProductToCart()}
-        name={cartType}
-      ></ion-icon>
+      <ion-icon onClick={() => addProductToCart(id)} name={cartType}></ion-icon>
     </ProductWrapper>
   );
 }
