@@ -3,6 +3,7 @@ import Header from "./Header";
 import Categories from "./Categories";
 import Product from "./Product";
 import PriceSelection from "./PriceSelection";
+import WishList from "./WishList";
 import LoadingAnimation from "../common/LoadingAnimation";
 import { getProducts, postProducts } from "../../api/requests";
 import { useContext, useEffect, useState } from "react";
@@ -12,36 +13,66 @@ import SidebarMenu from "./SidebarMenu";
 import { UserContext } from "../../contexts/UserContext";
 
 export default function HomePage() {
-  const [productsList, setProductsList] = useState([]);
-  const { categorySelected, priceOption, isProductInfoShown, sideMenu } =
-    useContext(ProductsContext);
+  const {
+    productsList,
+    setProductsList,
+    productsWishList,
+    categorySelected,
+    priceOption,
+    isProductInfoShown,
+    sideMenu,
+    isWishListClicked,
+  } = useContext(ProductsContext);
   const { token } = useContext(UserContext);
   console.log(token);
-
+  const [wishListClicked, setWishListClicked] = useState(false);
   useEffect(() => {
     async function fetchData() {
-      // Insere os produtos no db se eles ainda não estiverem no banco local
       await postProducts();
-      // Obtém os produtos para rendererização
       const promise = await getProducts();
-      setProductsList(promise.data);
+      const helper = promise.data;
+
+      setProductsList(
+        helper.map((element) => {
+          let a = element;
+          a.liked = false;
+          return a;
+        })
+      );
     }
     fetchData();
   }, []);
-  console.log(sideMenu);
+
+  console.log(productsWishList);
   return (
     <>
       <Header></Header>
       {sideMenu ? <SidebarMenu></SidebarMenu> : ""}
       <Wrapper isPopUp={isProductInfoShown} isSideMenu={sideMenu}>
         <Categories></Categories>
-        <WishList>
-          <ion-icon name="heart-outline"></ion-icon>
-          <span> Lista de Produtos</span>
-        </WishList>
+        <WishList></WishList>
         <PriceSelection></PriceSelection>
+        {productsWishList[0] ? (
+          <WishListWrapper isWishListClicked={isWishListClicked}>
+            {productsWishList.map((item) => (
+              <Product
+                img={item.img}
+                name={item.name}
+                description={item.description}
+                price={item.price}
+                liked={true}
+                key={item.name}
+              />
+            ))}
+          </WishListWrapper>
+        ) : (
+          ""
+        )}
         {productsList[0] ? (
-          <ProductsWrapper isPopUp={isProductInfoShown}>
+          <ProductsWrapper
+            isPopUp={isProductInfoShown}
+            isWishListClicked={isWishListClicked}
+          >
             {!categorySelected
               ? priceFilter(productsList, priceOption).map((item) => (
                   <Product
@@ -49,6 +80,7 @@ export default function HomePage() {
                     name={item.name}
                     description={item.description}
                     price={item.price}
+                    liked={false}
                     key={item.name}
                   />
                 ))
@@ -60,6 +92,7 @@ export default function HomePage() {
                       name={item.name}
                       description={item.description}
                       price={item.price}
+                      liked={false}
                       key={item.name}
                     />
                   ))}
@@ -85,39 +118,24 @@ const Wrapper = styled.div`
   overflow: ${(props) => (props.isPopUp ? "hidden" : "initial")};
 `;
 
-const WishList = styled.div`
-  display: flex;
-  align-items: center;
-  top: 180px;
-  left: 16px;
-  position: fixed;
-  z-index: 3;
-  width: 100vw;
-  height: 120px;
-  padding-bottom: 40px;
-  background-color: #f5f5f5;
-
-  ion-icon {
-    cursor: pointer;
-    font-size: 20px;
-    padding-right: 10px;
-  }
-  span {
-    font-size: 18px;
-    font-weight: 500;
-    color: #757575;
-    cursor: pointer;
-  }
-`;
-
 const ProductsWrapper = styled.div`
   margin-top: 300px;
-  display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  display: ${(props) => (props.isWishListClicked ? "none" : "flex")};
 `;
 
 const LoadingAnimationWrapper = styled.div`
   margin-top: calc(50vh - 50px);
   margin-left: calc(50vw - 125px);
 `;
+
+const WishListWrapper = styled.div`
+  margin-top: 260px;
+  flex-wrap: wrap;
+  z-index: 5;
+  justify-content: center;
+  display: ${(props) => (props.isWishListClicked ? "flex" : "none")};
+`;
+
+export { ProductsWrapper };
