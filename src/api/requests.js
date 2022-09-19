@@ -25,9 +25,9 @@ async function postProducts() {
 async function postItemInCart(token, productId) {
   const data = {
     headers: {
-        Authorization: token,
-        Product: productId
-    }
+      Authorization: token,
+      Product: productId,
+    },
   };
   const promise = await axios.post(`${url_base}/cart-list`, {}, data);
   return promise;
@@ -36,18 +36,35 @@ async function postItemInCart(token, productId) {
 async function getCartList(token) {
   const data = {
     headers: {
-        Authorization: token
-    }
+      Authorization: token,
+    },
   };
   const promise = await axios.get(`${url_base}/cart-list`, data);
   return promise;
 }
-
 
 async function getUserWishList(config) {
   const promise = await axios.get(`${url_base}/wish-list`, {});
   return promise;
 }
 
-export { createUser, getProducts, postProducts, postLogin, getUserWishList, postItemInCart, getCartList };
+async function postOrder(token) {
+  const config = {
+    headers: {
+      Authorization: token,
+    },
+  };
+  const promise = await axios.post(`${url_base}/orders`, config);
+  return promise;
+}
 
+export {
+  createUser,
+  getProducts,
+  postProducts,
+  postLogin,
+  getUserWishList,
+  postItemInCart,
+  getCartList,
+  postOrder,
+};
