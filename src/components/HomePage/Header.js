@@ -2,13 +2,27 @@ import { useContext, useState } from "react";
 import styled from "styled-components";
 import { ProductsContext } from "../../contexts/ProductsContext";
 import { useNavigate } from "react-router-dom";
+import { getCartList } from "../../api/requests";
+import { UserContext } from "../../contexts/UserContext";
+import { Quantity } from "../../styles/CartWrapper";
 
 export default function Header() {
   const navigate = useNavigate();
   const [openedMenu, setOpenedMenu] = useState(false);
+  const { token, cart, setCart } = useContext(UserContext);
   const { isProductInfoShown } = useContext(ProductsContext);
   function openMenu() {
     setOpenedMenu(!openedMenu);
+  }
+
+  function navigateToCart() {
+    getCartList(token).then((res) => {
+      console.log(res);
+      setCart(res.data);
+      navigate('/cart');
+    }).catch(() => {
+      navigate('/sign-in');
+    });
   }
 
   return (
@@ -18,10 +32,13 @@ export default function Header() {
           <input />
           <ion-icon name="search"></ion-icon>
         </InputWrapper>
-        <ion-icon
-          onClick={() => navigate("/cart")}
-          name="cart-outline"
-        ></ion-icon>
+        <CartWrapper>
+          <ion-icon
+            onClick={navigateToCart}
+            name="cart-outline"
+          ></ion-icon>
+          <QuantityInCart>{cart.length}</QuantityInCart>
+        </CartWrapper>
         {openedMenu ? (
           <OpenedMenu onClick={openMenu}>Opened menu</OpenedMenu>
         ) : (
@@ -85,6 +102,38 @@ const InputWrapper = styled.div`
     color: #757575;
     font-size: 22px;
   }
+`;
+
+const CartWrapper = styled.div`
+  background-color: #FFABA6;
+  height: 48px;
+  width: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  ion-icon {
+    color: #ffffff;
+    font-size: 32px;
+  }
+`;
+
+const QuantityInCart = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FF8E97;
+  font-weight: 600;
+  font-size: 13px;
+  background-color: #ffffff;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  position: absolute;
+  top: -7px;
+  right: -2px;
 `;
 
 const OpenedMenu = styled.div``;

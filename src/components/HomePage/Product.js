@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { postItemInCart } from "../../api/requests";
 import { ProductsContext } from "../../contexts/ProductsContext";
@@ -12,6 +13,7 @@ export default function Product({ id, img, name, description, price }) {
   const [productInfoPopup, setProductInfoPopup] = useState(false);
   const { isProductInfoShown, setIsProductInfoShown } = useContext(ProductsContext);
   const { token } = useContext(UserContext);
+  const navigate = useNavigate();
 
   function likeProduct() {
     setHeartLiked(!heartLiked);
@@ -39,7 +41,7 @@ export default function Product({ id, img, name, description, price }) {
         setCartType("cart-outline");
       }
     }).catch((error) => {
-      console.log(error.response.data);
+        navigate('/sign-in');
     });
     
   }

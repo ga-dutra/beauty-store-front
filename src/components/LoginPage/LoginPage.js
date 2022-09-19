@@ -30,6 +30,7 @@ export default function LoginPage () {
         postLogin(body).then((res) => {
             setToken(`Bearer ${res.data}`);
             navigate('/');
+            console.log(`Bearer ${res.data}`);
         }).catch((error) => {
             alert(error.response.data);
         });

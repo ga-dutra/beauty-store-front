@@ -2,8 +2,8 @@ import styled from "styled-components";
 import Header from "./Header";
 import { MainButton } from "../../styles/MainButton";
 import Inputs from "./Inputs";
-import ProductsInCart from "./ProductsInCart";
-import { useContext } from "react";
+import ItemInCart from "./Item.js";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../../contexts/UserContext";
 
 export default function CartPage() {
@@ -13,26 +13,28 @@ export default function CartPage() {
     <Wrapper>
       <Header></Header>
       {cart[0] ? (
-        <ProductsInCart></ProductsInCart>
+        <>
+          <ItemInCart></ItemInCart>
+          <Inputs></Inputs>
+          <PriceInformation>
+            <div>
+              <h3>Subtotal</h3>
+              <h4>R$ 259,90</h4>
+            </div>
+            <div>
+              <h3>Frete</h3>
+              <h4>Grátis</h4>
+            </div>
+            <div>
+              <h3>Total a pagar</h3>
+              <h4>R$ 259,90</h4>
+            </div>
+          </PriceInformation>
+          <MainButton>Confirmar compra</MainButton>'
+        </>
       ) : (
-        <h1>Você ainda não possui produtos no carrinho</h1>
+        <NoProducts>Você ainda não possui produtos no carrinho</NoProducts>
       )}
-      <Inputs></Inputs>
-      <PriceInformation>
-        <div>
-          <h3>Subtotal</h3>
-          <h4>R$ 259,90</h4>
-        </div>
-        <div>
-          <h3>Frete</h3>
-          <h4>Grátis</h4>
-        </div>
-        <div>
-          <h3>Total a pagar</h3>
-          <h4>R$ 259,90</h4>
-        </div>
-      </PriceInformation>
-      <MainButton>Confirmar compra</MainButton>
     </Wrapper>
   );
 }
@@ -44,6 +46,15 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const NoProducts = styled.div`
+  width: 60%;
+  margin: auto;
+  font-weight: 600;
+  font-size: 26px;
+  color: #757575;
+  text-align: center;
 `;
 
 const PriceInformation = styled.div`

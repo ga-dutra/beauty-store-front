@@ -1,6 +1,6 @@
 import { Item, ImgWrapper, Img, DescriptionWrapper, ItemTitle, ItemDescription, ItemPrice, ItemsQuantity, Minus, Quantity, Plus } from '../../styles/CartWrapper.js';
 
-export default function Item () {
+export default function ItemInCart () {
     return (
         <Item>
             <ImgWrapper>
