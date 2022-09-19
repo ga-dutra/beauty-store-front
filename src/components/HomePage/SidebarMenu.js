@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import styled from "styled-components";
 import { ProductsContext } from "../../contexts/ProductsContext";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import { UserContext } from "../../contexts/UserContext";
 
 export default function SidebarMenu() {
   const { sideMenu, setSideMenu } = useContext(ProductsContext);
+  const [showContact, setShowContact] = useState(false);
   const navigate = useNavigate();
   const { setToken } = useContext(UserContext);
 
@@ -23,9 +24,9 @@ export default function SidebarMenu() {
           <ion-icon name="person-circle"></ion-icon>
           <p>PERFIL</p>
         </div>
-        <div>
-          <ion-icon name="mail-outline"></ion-icon>
-          <p>CONTATO</p>
+        <div onClick={() => setShowContact(!showContact)}>
+          <ion-icon name="logo-instagram"></ion-icon>
+          <p>{showContact ? "@beautyshop" : "CONTATO"}</p>
         </div>
         <div>
           <ion-icon onClick={logout} name="log-out-outline"></ion-icon>
@@ -42,7 +43,7 @@ const SidebarWrapper = styled.div`
   top: -80px;
   right: -80px;
   z-index: 5;
-  width: 230px;
+  width: 260px;
   height: 280px;
   background-image: linear-gradient(#ffd3b6, #ffaba6);
   overflow: visible;
@@ -53,7 +54,8 @@ const SidebarWrapper = styled.div`
     z-index: 5;
     top: 140px;
     right: 88px;
-    height: 96px;
+    height: 102px;
+    width: 140px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -73,7 +75,9 @@ const SidebarWrapper = styled.div`
   p {
     color: #ffffff;
     font-weight: 700;
-    font-size: 19px;
+    font-size: 18px;
+    word-wrap: break-word;
+    word-break: break-all;
   }
 
   > ion-icon {
@@ -81,7 +85,7 @@ const SidebarWrapper = styled.div`
     position: absolute;
     z-index: 5;
     top: 86px;
-    right: 176px;
+    right: 192px;
     font-size: 40px;
     color: #ffffff;
   }
