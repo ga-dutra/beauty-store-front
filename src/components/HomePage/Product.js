@@ -28,25 +28,19 @@ export default function Product({ img, name, description, price, liked }) {
     const isInList = list.filter((element) => {
       if (element.name === productLiked.name) {
         return true;
-      } else return;
+      } else return false;
     });
-    console.log(`isInList[0]: ${isInList[0]}`);
+
     if (!isInList[0]) {
       list.push(productLiked);
       setProductsWishList(list);
     } else {
-      console.log("entrei");
       const filtered = list.filter((element) => {
-        console.log(`element.name: ${element.name}`);
-        console.log(`productLiked.name: ${productLiked.name}`);
-        console.log(element.name === productLiked.name);
         if (element.name === productLiked.name) {
           return 0;
         } else return 1;
       });
-      console.log(filtered);
       setProductsWishList(filtered);
-      console.log(productsWishList);
     }
 
     setHeartLiked(!heartLiked);

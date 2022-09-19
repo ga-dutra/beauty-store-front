@@ -1,8 +1,6 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
 import { ProductsContext } from "../../contexts/ProductsContext";
-import { ProductsWrapper } from "./HomePage";
-import Product from "./Product";
 
 export default function WishList() {
   const { productsWishList, isWishListClicked, setIsWishListClicked } =
@@ -28,17 +26,6 @@ export default function WishList() {
       )}
       {isWishListClicked ? (
         productsWishList[0] ? (
-          // <ProductsWrapper>
-          //   {productsWishList.map((item) => (
-          //     <Product
-          //       img={item.img}
-          //       name={item.name}
-          //       description={item.description}
-          //       price={item.price}
-          //       key={item.name}
-          //     />
-          //   ))}
-          // </ProductsWrapper>
           ""
         ) : (
           <h4>Você ainda não possui itens na lista de desejos!</h4>

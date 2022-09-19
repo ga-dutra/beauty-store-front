@@ -6,7 +6,7 @@ import PriceSelection from "./PriceSelection";
 import WishList from "./WishList";
 import LoadingAnimation from "../common/LoadingAnimation";
 import { getProducts, postProducts } from "../../api/requests";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { ProductsContext } from "../../contexts/ProductsContext";
 import { priceFilter } from "../../utils/priceFilter.js";
 import SidebarMenu from "./SidebarMenu";
@@ -25,23 +25,15 @@ export default function HomePage() {
   } = useContext(ProductsContext);
   const { token } = useContext(UserContext);
   console.log(token);
-  const [wishListClicked, setWishListClicked] = useState(false);
+
   useEffect(() => {
     async function fetchData() {
       await postProducts();
       const promise = await getProducts();
-      const helper = promise.data;
-
-      setProductsList(
-        helper.map((element) => {
-          let a = element;
-          a.liked = false;
-          return a;
-        })
-      );
+      setProductsList(promise.data);
     }
     fetchData();
-  }, []);
+  }, [setProductsList]);
 
   console.log(productsWishList);
   return (
