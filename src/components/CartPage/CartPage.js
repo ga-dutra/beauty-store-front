@@ -8,8 +8,11 @@ import { UserContext } from "../../contexts/UserContext";
 
 export default function CartPage() {
   const { cart } = useContext(UserContext);
-  return console.log(cart);
-
+  console.log(cart);
+  let price = 0;
+  cart.forEach((element) => {
+    price += Number(element.price.replace(",", "."));
+  });
   return (
     <Wrapper>
       <Header></Header>
@@ -20,7 +23,7 @@ export default function CartPage() {
           <PriceInformation>
             <div>
               <h3>Subtotal</h3>
-              <h4>R$ 259,90</h4>
+              <h4>R$ {String(price.toFixed(2)).replace(".", ",")}</h4>
             </div>
             <div>
               <h3>Frete</h3>
@@ -28,10 +31,10 @@ export default function CartPage() {
             </div>
             <div>
               <h3>Total a pagar</h3>
-              <h4>R$ 259,90</h4>
+              <h4>R$ {String(price.toFixed(2)).replace(".", ",")}</h4>
             </div>
           </PriceInformation>
-          <MainButton>Confirmar compra</MainButton>'
+          <MainButton>Confirmar compra</MainButton>
         </>
       ) : (
         <NoProducts>Você ainda não possui produtos no carrinho</NoProducts>

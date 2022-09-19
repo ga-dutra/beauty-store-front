@@ -1,18 +1,16 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { postItemInCart } from "../../api/requests";
 import { ProductsContext } from "../../contexts/ProductsContext";
 import { UserContext } from "../../contexts/UserContext";
 import ProductPopUp from "./ProductPopUp";
-import { getCartList } from "../../api/requests";
 
 export default function Product({ img, name, description, price, liked, id }) {
   const [heartLiked, setHeartLiked] = useState(false);
   const [hearticon, setHeartIcon] = useState("heart-outline");
   const [cartType, setCartType] = useState("cart-outline");
   const [productInfoPopup, setProductInfoPopup] = useState(false);
-  const { token, setCart } = useContext(UserContext);
+  const { setCart, cart } = useContext(UserContext);
   const navigate = useNavigate();
 
   const {
@@ -65,25 +63,51 @@ export default function Product({ img, name, description, price, liked, id }) {
   }
 
   function addProductToCart() {
+    const cartProduct = {
+      img: img,
+      name: name,
+      description: description,
+      price: price,
+    };
+
+    const list = cart;
+    const isInList = list.filter((element) => {
+      if (element.name === cartProduct.name) {
+        return true;
+      } else return false;
+    });
+
+    if (!isInList[0]) {
+      list.push(cartProduct);
+      setCart(list);
+    } else {
+      const filtered = list.filter((element) => {
+        if (element.name === cartProduct.name) {
+          return 0;
+        } else return 1;
+      });
+      setCart(filtered);
+    }
+    console.log(cart);
     const productId = id;
 
-    postItemInCart(token, productId)
-      .then((res) => {
-        if (res.data === "product inserted on cart-list") {
-          setCartType("cart");
-          getCartList(token).then((res) => {
-            setCart(res.data);
-          });
-        } else {
-          setCartType("cart-outline");
-          getCartList(token).then((res) => {
-            setCart(res.data);
-          });
-        }
-      })
-      .catch(() => {
-        navigate("/sign-in");
-      });
+    //   postItemInCart(token, productId)
+    //     .then((res) => {
+    //       if (res.data === "product inserted on cart-list") {
+    //         setCartType("cart");
+    //         getCartList(token).then((res) => {
+    //           setCart(res.data);
+    //         });
+    //       } else {
+    //         setCartType("cart-outline");
+    //         getCartList(token).then((res) => {
+    //           setCart(res.data);
+    //         });
+    //       }
+    //     })
+    //     .catch(() => {
+    //       navigate("/sign-in");
+    //     });
   }
 
   return productInfoPopup ? (

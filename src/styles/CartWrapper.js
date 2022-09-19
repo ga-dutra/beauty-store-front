@@ -4,9 +4,12 @@ const Item = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 26px 0;
 `;
 
 const ImgWrapper = styled.div`
+  margin-top: 10px;
+  margin-right: 10px;
   width: 67px;
   height: 67px;
   background-color: #efecf0;
@@ -28,19 +31,21 @@ const DescriptionWrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   height: 56px;
-  width: 150px;
+  width: 200px;
 `;
 
 const ItemTitle = styled.div`
   font-size: 13px;
   font-weight: 600;
   color: #000000;
+  margin-bottom: 4px;
 `;
 
 const ItemDescription = styled.div`
   font-size: 11px;
   font-weight: 400;
   color: #757575;
+  margin-bottom: 4px;
 `;
 
 const ItemPrice = styled.div`
@@ -53,6 +58,7 @@ const ItemsQuantity = styled.div`
   display: flex;
   width: 80px;
   justify-content: space-between;
+  align-items: center;
 `;
 
 const Minus = styled.div`

@@ -6,7 +6,6 @@ import {
   InputWrapper,
   IconInput,
   Input,
-  RedirectButton,
 } from "../../styles/SignInWrapper.js";
 import { MainButton } from "../../styles/MainButton.js";
 import cover from "../../assets/img/cover-login.svg";
@@ -14,7 +13,7 @@ import email from "../../assets/img/email.svg";
 import password from "../../assets/img/password.svg";
 import { useContext, useState } from "react";
 import { postLogin } from "../../api/requests.js";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext.js";
 
 export default function LoginPage() {

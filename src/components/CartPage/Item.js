@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserContext } from "../../contexts/UserContext.js";
 import {
   Item,
   ImgWrapper,
@@ -14,32 +15,31 @@ import {
 } from "../../styles/CartWrapper.js";
 
 export default function ItemsInCart(cartList) {
-    const [counter, setCounter] = useState(0);
+  const { cart } = useContext(UserContext);
+  const [counter, setCounter] = useState(0);
 
-    function increment() {
-        setCounter(counter+1);
-    }
-    function decrement() {
-        setCounter(counter-1);
-    }
+  //   function increment() {
+  //     setCounter(counter + 1);
+  //   }
+  //   function decrement() {
+  //     setCounter(counter - 1);
+  //   }
 
-  return (
-    cartList.map(item => (
+  return cart.map((item) => (
     <Item>
-        <ImgWrapper>
-            <Img src={item.img}></Img>
-        </ImgWrapper>
-        <DescriptionWrapper>
-            <ItemTitle>{item.name}</ItemTitle>
-            <ItemDescription>{item.description}</ItemDescription>
-            <ItemPrice>{item.price}</ItemPrice>
-        </DescriptionWrapper>
-        <ItemsQuantity>
-            <Minus onClick={decrement}>-</Minus>
-            <Quantity>{counter}</Quantity>
-            <Plus onClick={increment}>+</Plus>
-        </ItemsQuantity>
+      <ImgWrapper>
+        <Img src={item.img}></Img>
+      </ImgWrapper>
+      <DescriptionWrapper>
+        <ItemTitle>{item.name}</ItemTitle>
+        <ItemDescription>{item.description}</ItemDescription>
+        <ItemPrice>R$ {item.price}</ItemPrice>
+      </DescriptionWrapper>
+      {/* <ItemsQuantity>
+        <Minus onClick={decrement}>-</Minus>
+        <Quantity>{counter}</Quantity>
+        <Plus onClick={increment}>+</Plus>
+      </ItemsQuantity> */}
     </Item>
-    ))
-  );
+  ));
 }
