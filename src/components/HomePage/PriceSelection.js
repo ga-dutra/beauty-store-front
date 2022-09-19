@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { ProductsContext } from "../../contexts/ProductsContext";
 
 export default function PriceSelection() {
-  const { priceOption, setPriceOption } = useContext(ProductsContext);
+  const { priceOption, setPriceOption, isWishListClicked } =
+    useContext(ProductsContext);
 
   const priceOptions = [
     { value: "", text: "Ordenar preços", disabled: "disabled selected" },
@@ -16,7 +17,7 @@ export default function PriceSelection() {
   };
 
   return (
-    <SelectionWrapper>
+    <SelectionWrapper isWishListClicked={isWishListClicked}>
       <select value={priceOption} onChange={handleChange}>
         {priceOptions.map((option) => (
           <option
@@ -39,6 +40,7 @@ const SelectionWrapper = styled.div`
   position: fixed;
   z-index: 3;
   top: 240px;
+  display: ${(props) => (props.isWishListClicked ? "none" : "inherit")};
   select {
     height: 40px;
     background-color: #f5f5f5;
