@@ -1,11 +1,18 @@
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import checked from "../../assets/img/checked.png";
+import { UserContext } from "../../contexts/UserContext";
 import { Body, Icon, Text } from "../../styles/CheckoutWrapper.js";
+import { postOrder } from "../../api/requests";
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
+  const { token } = useContext(UserContext);
   function navigateToMain() {
-    setTimeout(() => navigate("/"), 5000);
+    const promise = postOrder(token);
+    promise.then((res) => {
+      setTimeout(() => navigate("/"), 5000);
+    });
   }
   navigateToMain();
   return (
