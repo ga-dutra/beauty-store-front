@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { ProductsContext } from "../../contexts/ProductsContext";
 import { useNavigate } from "react-router-dom";
@@ -17,10 +17,15 @@ export default function Header() {
   const { isProductInfoShown, sideMenu, setSideMenu } =
     useContext(ProductsContext);
 
+  useEffect(() => {
+    getCartList(token).then((res) => {
+      setCart(res.data);
+    })
+  }, []);
+
   function navigateToCart() {
     getCartList(token)
       .then((res) => {
-        console.log(res);
         setCart(res.data);
         navigate("/cart");
       })
