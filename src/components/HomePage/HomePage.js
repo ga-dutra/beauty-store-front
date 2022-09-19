@@ -68,6 +68,7 @@ export default function HomePage() {
             {!categorySelected
               ? priceFilter(productsList, priceOption).map((item) => (
                   <Product
+                    id={item._id}
                     img={item.img}
                     name={item.name}
                     description={item.description}

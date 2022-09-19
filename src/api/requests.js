@@ -22,9 +22,32 @@ async function postProducts() {
   return promise;
 }
 
+async function postItemInCart(token, productId) {
+  const data = {
+    headers: {
+        Authorization: token,
+        Product: productId
+    }
+  };
+  const promise = await axios.post(`${url_base}/cart-list`, {}, data);
+  return promise;
+}
+
+async function getCartList(token) {
+  const data = {
+    headers: {
+        Authorization: token
+    }
+  };
+  const promise = await axios.get(`${url_base}/cart-list`, data);
+  return promise;
+}
+
+
 async function getUserWishList(config) {
   const promise = await axios.get(`${url_base}/wish-list`, {});
   return promise;
 }
 
-export { createUser, getProducts, postProducts, postLogin, getUserWishList };
+export { createUser, getProducts, postProducts, postLogin, getUserWishList, postItemInCart, getCartList };
+
